@@ -1,11 +1,15 @@
 import type { LeadRecord } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { Surface } from "@/components/ui/surface";
-import { formatDate, formatServices } from "@/lib/utils";
+import { formatDate, formatServices, getDaysUntil, getReleaseWindowLabel } from "@/lib/utils";
 
 function getBadgeTone(status: LeadRecord["status"]) {
   if (status === "Live") {
     return "emerald" as const;
+  }
+
+  if (status === "Pending Review") {
+    return "rose" as const;
   }
 
   if (status === "Scheduled" || status === "Ready for Release") {
@@ -19,6 +23,36 @@ function getBadgeTone(status: LeadRecord["status"]) {
   return "neutral" as const;
 }
 
+function getReadinessTone(score: number) {
+  if (score >= 86) {
+    return "emerald" as const;
+  }
+
+  if (score >= 70) {
+    return "gold" as const;
+  }
+
+  return "rose" as const;
+}
+
+function getUrgencyTone(date?: string) {
+  const daysUntil = getDaysUntil(date);
+
+  if (daysUntil === null) {
+    return "neutral" as const;
+  }
+
+  if (daysUntil <= 3) {
+    return "rose" as const;
+  }
+
+  if (daysUntil <= 10) {
+    return "gold" as const;
+  }
+
+  return "slate" as const;
+}
+
 export function RecentSubmissionsTable({
   submissions,
   upcomingReleaseDates,
@@ -27,8 +61,8 @@ export function RecentSubmissionsTable({
   upcomingReleaseDates: LeadRecord[];
 }) {
   return (
-    <div className="dashboard-grid">
-      <Surface>
+    <div className="dashboard-secondary-grid">
+      <Surface className="table-card">
         <div className="panel-heading">
           <div>
             <p className="eyebrow">Recent Submissions</p>
@@ -43,9 +77,10 @@ export function RecentSubmissionsTable({
                 <tr>
                   <th>Artist</th>
                   <th>Release</th>
-                  <th>Services</th>
+                  <th>Scope</th>
                   <th>Status</th>
-                  <th>Release Date</th>
+                  <th>Readiness</th>
+                  <th>Release Window</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,13 +94,26 @@ export function RecentSubmissionsTable({
                       <strong>{submission.songTitle}</strong>
                       <span>{submission.primaryArtist}</span>
                     </td>
-                    <td>{formatServices(submission.servicesNeeded)}</td>
+                    <td>
+                      <strong>{submission.packageName}</strong>
+                      <span>{formatServices(submission.servicesNeeded)}</span>
+                    </td>
                     <td>
                       <Badge tone={getBadgeTone(submission.status)}>
                         {submission.status}
                       </Badge>
                     </td>
-                    <td>{formatDate(submission.requestedReleaseDate)}</td>
+                    <td>
+                      <Badge tone={getReadinessTone(submission.readinessScore)}>
+                        {submission.readinessScore}
+                      </Badge>
+                    </td>
+                    <td>
+                      <Badge tone={getUrgencyTone(submission.requestedReleaseDate)}>
+                        {getReleaseWindowLabel(submission.requestedReleaseDate)}
+                      </Badge>
+                      <span>{formatDate(submission.requestedReleaseDate)}</span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -76,11 +124,11 @@ export function RecentSubmissionsTable({
         )}
       </Surface>
 
-      <Surface>
+      <Surface className="calendar-card">
         <div className="panel-heading">
           <div>
             <p className="eyebrow">Calendar</p>
-            <h3>Upcoming release dates</h3>
+            <h3>Upcoming release timeline</h3>
           </div>
         </div>
 
@@ -90,9 +138,16 @@ export function RecentSubmissionsTable({
               <div key={submission.id} className="upcoming-item">
                 <div>
                   <strong>{submission.songTitle}</strong>
-                  <p>{submission.clientName}</p>
+                  <p>
+                    {submission.clientName} • {submission.status}
+                  </p>
                 </div>
-                <span>{formatDate(submission.requestedReleaseDate)}</span>
+                <div className="attention-item-meta">
+                  <Badge tone={getUrgencyTone(submission.requestedReleaseDate)}>
+                    {getReleaseWindowLabel(submission.requestedReleaseDate)}
+                  </Badge>
+                  <span>{formatDate(submission.requestedReleaseDate)}</span>
+                </div>
               </div>
             ))}
           </div>

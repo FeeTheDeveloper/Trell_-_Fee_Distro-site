@@ -6,6 +6,12 @@ import { ArrowUpRightIcon } from "@/components/ui/icons";
 import { ButtonLink } from "@/components/ui/button";
 
 export function SiteHeader() {
+  const mobileLinks = [
+    ...navigationLinks,
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/portal", label: "Portal" },
+  ];
+
   return (
     <header className="site-header">
       <div className="shell header-stack">
@@ -24,9 +30,10 @@ export function SiteHeader() {
                 className="brand-logo"
               />
             </span>
-            <span>
-              Ghost Creators
+            <span className="brand-copy">
+              <span>Ghost Creators</span>
               <strong>Software Group</strong>
+              <small>Ghost Ops Platform</small>
             </span>
           </Link>
 
@@ -45,13 +52,13 @@ export function SiteHeader() {
               Free Audit
             </ButtonLink>
             <ButtonLink href="/intake" size="small" icon={<ArrowUpRightIcon />}>
-              Get Started
+              Open Intake
             </ButtonLink>
           </div>
         </div>
 
         <nav className="mobile-nav" aria-label="Mobile navigation">
-          {navigationLinks.map((link) => (
+          {mobileLinks.map((link) => (
             <Link key={link.href} href={link.href} className="mobile-nav-pill">
               {link.label}
             </Link>

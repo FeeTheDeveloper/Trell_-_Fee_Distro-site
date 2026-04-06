@@ -46,6 +46,14 @@ export type ValidationResult = {
   mode: "rules-only" | "ai-enhanced";
 };
 
+export type BadgeTone =
+  | "neutral"
+  | "emerald"
+  | "gold"
+  | "slate"
+  | "rose"
+  | "violet";
+
 export type LeadStatus =
   | "Pending Review"
   | "Metadata QA"
@@ -74,12 +82,15 @@ export type MetricCard = {
   label: string;
   value: string;
   detail: string;
+  signal?: string;
+  tone?: BadgeTone;
+  emphasis?: "default" | "primary";
 };
 
 export type PipelineStage = {
   label: LeadStatus;
   count: number;
-  tone: "neutral" | "emerald" | "gold" | "slate";
+  tone: BadgeTone;
 };
 
 export type ServiceBreakdown = {

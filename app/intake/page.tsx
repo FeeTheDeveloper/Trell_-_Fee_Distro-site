@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { IntakeForm } from "@/components/forms/intake-form";
 import { Badge } from "@/components/ui/badge";
 import { Surface } from "@/components/ui/surface";
+import { intakeStages } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "Intake",
@@ -10,34 +11,35 @@ export const metadata: Metadata = {
     "Submit release details, rights information, and service scope for publishing and distribution setup.",
 };
 
-export default function IntakePage() {
+export default function IntakePage({
+  searchParams,
+}: {
+  searchParams?: { service?: string };
+}) {
   return (
     <section className="section-block">
       <div className="shell page-stack">
-        <div className="page-header">
-          <Badge tone="emerald">New Client Intake</Badge>
-          <h1>Bring every release detail into one premium intake workflow.</h1>
+        <div className="page-header page-header-premium">
+          <Badge tone="violet">Free Audit + Client Intake</Badge>
+          <h1>Bring every release detail into one premium intake workspace.</h1>
           <p className="section-copy">
-            Submit the release, rights, assets, and service needs in one place. We
-            will validate the setup, push clean data into Notion, and move the
-            project into review.
+            Submit the release, rights, assets, and service needs in one place.
+            Ghost validates the setup, pushes clean data into Notion, and moves the
+            project into review without changing the existing integration flow.
           </p>
         </div>
 
-        <div className="intake-page-grid">
-          <IntakeForm />
-
-          <Surface className="intake-note">
-            <p className="eyebrow">What happens after submission</p>
-            <h2>We audit the release before anything starts moving.</h2>
-            <ul className="check-list compact">
-              <li>Metadata and contributor formatting review</li>
-              <li>Split verification and rights confirmation</li>
-              <li>Service-scope assignment for publishing and distribution</li>
-              <li>Admin follow-up if files, credits, or dates need cleanup</li>
-            </ul>
-          </Surface>
+        <div className="stage-strip">
+          {intakeStages.map((stage) => (
+            <Surface key={stage.title} className="intake-stage-card">
+              <p className="eyebrow">{stage.label}</p>
+              <h2>{stage.title}</h2>
+              <p>{stage.detail}</p>
+            </Surface>
+          ))}
         </div>
+
+        <IntakeForm servicePresetKey={searchParams?.service} />
       </div>
     </section>
   );

@@ -36,6 +36,46 @@ export function formatNumber(value: number) {
   return new Intl.NumberFormat("en-US").format(value);
 }
 
+export function getDaysUntil(date?: string) {
+  if (!date) {
+    return null;
+  }
+
+  const parsed = new Date(date);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  parsed.setHours(0, 0, 0, 0);
+
+  return Math.round((parsed.getTime() - today.getTime()) / 86_400_000);
+}
+
+export function getReleaseWindowLabel(date?: string) {
+  const daysUntil = getDaysUntil(date);
+
+  if (daysUntil === null) {
+    return "Date pending";
+  }
+
+  if (daysUntil < 0) {
+    return `${Math.abs(daysUntil)}d overdue`;
+  }
+
+  if (daysUntil === 0) {
+    return "Today";
+  }
+
+  if (daysUntil === 1) {
+    return "Tomorrow";
+  }
+
+  return `In ${daysUntil} days`;
+}
+
 export function uniqueValues(values: string[]) {
   return Array.from(new Set(values.filter(Boolean)));
 }

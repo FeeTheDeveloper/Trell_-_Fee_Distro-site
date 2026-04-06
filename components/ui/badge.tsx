@@ -1,8 +1,7 @@
 import type { ReactNode } from "react";
 
+import type { BadgeTone } from "@/lib/types";
 import { cn } from "@/lib/utils";
-
-type Tone = "neutral" | "emerald" | "gold" | "slate";
 
 export function Badge({
   children,
@@ -10,7 +9,7 @@ export function Badge({
   className,
 }: {
   children: ReactNode;
-  tone?: Tone;
+  tone?: BadgeTone;
   className?: string;
 }) {
   return (

@@ -16,12 +16,13 @@ export default function PortalPage() {
   return (
     <section className="section-block">
       <div className="shell page-stack">
-        <div className="page-header">
-          <Badge tone="slate">Client Workspace</Badge>
-          <h1>Give artists and managers a cleaner view of release progress.</h1>
+        <div className="page-header page-header-premium">
+          <Badge tone="violet">Client Workspace</Badge>
+          <h1>Give artists and managers a premium, trust-first view of release progress.</h1>
           <p className="section-copy">
-            This portal is built with a lightweight placeholder gate today, with a
-            clean path to Clerk, NextAuth, or Supabase auth later.
+            This portal keeps the lightweight placeholder gate in place for now,
+            while making the client-facing experience feel far more polished,
+            informed, and production-ready.
           </p>
         </div>
 

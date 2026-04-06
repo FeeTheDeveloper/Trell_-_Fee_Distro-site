@@ -9,18 +9,21 @@ export function PipelineBoard({
   pipeline: PipelineStage[];
   serviceBreakdown: ServiceBreakdown[];
 }) {
+  const highestDemand = Math.max(...serviceBreakdown.map((service) => service.count), 1);
+
   return (
-    <div className="dashboard-grid">
-      <Surface>
+    <div className="dashboard-secondary-grid">
+      <Surface className="pipeline-panel">
         <div className="panel-heading">
           <div>
             <p className="eyebrow">Pipeline</p>
             <h3>Release pipeline status</h3>
           </div>
         </div>
-        <div className="pipeline-list">
+
+        <div className="pipeline-stage-grid">
           {pipeline.map((stage) => (
-            <div key={stage.label} className="pipeline-row">
+            <div key={stage.label} className="pipeline-stage-card">
               <div>
                 <strong>{stage.label}</strong>
                 <p>{stage.count} active items</p>
@@ -31,19 +34,28 @@ export function PipelineBoard({
         </div>
       </Surface>
 
-      <Surface>
+      <Surface className="service-panel">
         <div className="panel-heading">
           <div>
             <p className="eyebrow">Service Mix</p>
-            <h3>Current service breakdown</h3>
+            <h3>Current service demand</h3>
           </div>
         </div>
+
         <div className="service-breakdown">
           {serviceBreakdown.length ? (
             serviceBreakdown.map((service) => (
-              <div key={service.label} className="service-row">
-                <span>{service.label}</span>
-                <strong>{service.count}</strong>
+              <div key={service.label} className="service-demand-card">
+                <div className="service-row">
+                  <span>{service.label}</span>
+                  <strong>{service.count}</strong>
+                </div>
+                <div className="service-demand-bar" aria-hidden="true">
+                  <div
+                    className="service-demand-fill"
+                    style={{ width: `${(service.count / highestDemand) * 100}%` }}
+                  />
+                </div>
               </div>
             ))
           ) : (

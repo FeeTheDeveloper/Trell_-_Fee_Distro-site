@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import {
@@ -11,11 +12,19 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="shell footer-grid">
         <div className="footer-brand">
-          <p className="eyebrow">Ghost Creators Software Group</p>
-          <h2>Futuristic release operations for artists who want their money handled right.</h2>
+          <div className="footer-brand-lockup">
+            <span className="brand-glyph brand-logo-wrap footer-logo" aria-hidden="true">
+              <Image src="/logo.png" alt="" width={48} height={48} className="brand-logo" />
+            </span>
+            <div>
+              <p className="eyebrow">Ghost Creators Software Group</p>
+              <h2>Premium release operations for artists who want the back end handled right.</h2>
+            </div>
+          </div>
           <p className="section-copy">
             Music-business operations, distribution support, and publishing admin in
-            one premium platform experience.
+            one premium platform experience designed to feel serious, custom, and
+            trustworthy from the first click.
           </p>
 
           <div className="footer-trust">
@@ -54,6 +63,7 @@ export function SiteFooter() {
               support@ghostcreatorsgroup.com
             </a>
             <a href="tel:+13125550109">(312) 555-0109</a>
+            <span className="footer-note">White-glove support for artists, managers, and labels.</span>
           </div>
         </div>
       </div>

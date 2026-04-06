@@ -294,7 +294,7 @@ export function buildDashboardSnapshot(
   submissions: LeadRecord[],
   source: DashboardSnapshot["source"],
 ): DashboardSnapshot {
-  const now = new Date("2026-04-05T00:00:00.000Z");
+  const now = new Date("2026-04-06T00:00:00.000Z");
   const sevenDaysAgo = new Date(now);
   sevenDaysAgo.setDate(now.getDate() - 7);
 
@@ -322,40 +322,52 @@ export function buildDashboardSnapshot(
     source,
     metrics: [
       {
-        label: "Total leads",
-        value: formatNumber(totalLeads),
-        detail: "Across intake submissions and retained client work.",
-      },
-      {
-        label: "New submissions",
-        value: formatNumber(newSubmissions),
-        detail: "Captured within the last seven days.",
-      },
-      {
-        label: "Full Admin requests",
-        value: formatNumber(fullAdminRequests),
-        detail: "Premium admin packages currently in the mix.",
-      },
-      {
         label: "Pending review",
         value: formatNumber(pendingReview),
-        detail: "Need metadata, rights, or asset follow-up.",
+        detail: "Projects that still need rights, metadata, or asset follow-up.",
+        signal: "Needs attention now",
+        tone: "rose",
+        emphasis: "primary",
       },
       {
         label: "Upcoming release dates",
         value: formatNumber(upcomingReleaseDates),
-        detail: "Scheduled or requested releases still ahead.",
+        detail: "Requested releases still inside the current scheduling window.",
+        signal: "Calendar pressure",
+        tone: "gold",
+      },
+      {
+        label: "Full Admin requests",
+        value: formatNumber(fullAdminRequests),
+        detail: "Premium release packages currently moving through Ghost ops.",
+        signal: "High-value demand",
+        tone: "violet",
+      },
+      {
+        label: "New submissions",
+        value: formatNumber(newSubmissions),
+        detail: "Client submissions captured during the last seven days.",
+        signal: "Fresh intake volume",
+        tone: "slate",
+      },
+      {
+        label: "Total leads",
+        value: formatNumber(totalLeads),
+        detail: "Across active intake submissions and retained client work.",
+        signal: "Overall pipeline",
       },
     ],
     pipeline: pipelineLabels.map((label) => ({
       label,
       count: submissions.filter((submission) => submission.status === label).length,
       tone:
-        label === "Live"
+        label === "Pending Review"
+          ? "rose"
+          : label === "Live"
           ? "emerald"
-          : label === "Scheduled"
+          : label === "Scheduled" || label === "Ready for Release"
             ? "gold"
-            : label === "Metadata QA"
+          : label === "Metadata QA"
               ? "slate"
               : "neutral",
     })),
@@ -382,7 +394,7 @@ export function getMockPortalProjects() {
 export function getDashboardSourceLabel(source: DashboardSnapshot["source"]) {
   return source === "live"
     ? "Live Notion data"
-    : `Demo snapshot updated for ${formatDate("2026-04-05")}`;
+    : `Demo snapshot updated for ${formatDate("2026-04-06")}`;
 }
 
 export function getServiceLabel(services: ServiceOption[]) {
