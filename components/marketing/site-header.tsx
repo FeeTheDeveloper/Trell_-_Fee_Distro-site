@@ -41,12 +41,16 @@ export function SiteHeader() {
 
           <nav className="desktop-nav" aria-label="Primary navigation">
             {navigationLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
+              <Link key={link.href} href={link.href} className="desktop-nav-link">
                 {link.label}
               </Link>
             ))}
-            <Link href="/dashboard">Dashboard</Link>
-            <Link href="/portal">Portal</Link>
+            <Link href="/dashboard" className="desktop-nav-link desktop-nav-utility">
+              Dashboard
+            </Link>
+            <Link href="/portal" className="desktop-nav-link desktop-nav-utility">
+              Portal
+            </Link>
           </nav>
 
           <div className="nav-actions">
