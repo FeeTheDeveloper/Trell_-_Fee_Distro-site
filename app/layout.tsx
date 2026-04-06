@@ -17,7 +17,23 @@ const bodyFont = Inter({
   variable: "--font-body",
 });
 
+function getMetadataBase() {
+  const configuredUrl = process.env.SITE_URL?.trim();
+  const vercelUrl =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ??
+    process.env.VERCEL_URL?.trim();
+  const fallbackUrl = vercelUrl ? `https://${vercelUrl}` : "http://localhost:3000";
+  const resolved = configuredUrl || fallbackUrl;
+
+  try {
+    return new URL(resolved);
+  } catch {
+    return new URL("http://localhost:3000");
+  }
+}
+
 export const metadata: Metadata = {
+  metadataBase: getMetadataBase(),
   title: {
     default: "Ghost Creators Software Group",
     template: "%s | Ghost Creators Software Group",

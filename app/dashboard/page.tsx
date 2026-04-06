@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   description: "Internal dashboard for leads, release pipeline, and service activity.",
 };
 
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 async function getSnapshot() {

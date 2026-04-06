@@ -43,6 +43,7 @@ npm install
 3. Add the required variables:
 
 ```env
+SITE_URL=http://localhost:3000
 NOTION_API_KEY=your_notion_secret
 NOTION_DATABASE_ID=your_notion_data_source_id
 OPENAI_API_KEY=your_openai_api_key
@@ -147,11 +148,18 @@ jordan@ghostclients.com
 2. Import the project into Vercel.
 3. Add the same environment variables in the Vercel project settings:
 
+- `SITE_URL`
 - `NOTION_API_KEY`
 - `NOTION_DATABASE_ID`
 - `OPENAI_API_KEY`
 
 4. Deploy.
+
+### Recommended Vercel Values
+
+- Set `SITE_URL` to your production domain, for example `https://your-project.vercel.app` or your custom domain.
+- The app will also fall back to Vercel system URLs when `SITE_URL` is not set, but setting it explicitly gives cleaner production metadata.
+- The repo now pins `node` to `20.x` in `package.json` so Vercel uses a consistent runtime.
 
 ## Current Verification
 
