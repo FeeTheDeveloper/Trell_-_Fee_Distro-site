@@ -31,9 +31,11 @@ export function SiteHeader() {
               />
             </span>
             <span className="brand-copy">
-              <span>Ghost Creators</span>
-              <strong>Software Group</strong>
-              <small>Ghost Ops Platform</small>
+              <span className="brand-title">Ghost Creators</span>
+              <span className="brand-meta">
+                <strong>Software Group</strong>
+                <small>Ghost Ops Platform</small>
+              </span>
             </span>
           </Link>
 
