@@ -51,15 +51,18 @@ export function HeroSection() {
                   <Image
                     src="/logo.png"
                     alt="Ghost Creators Software Group"
-                    width={180}
-                    height={180}
+                    width={132}
+                    height={132}
+                    sizes="(max-width: 639px) 56px, (max-width: 1023px) 64px, (max-width: 1279px) 72px, 84px"
                     className="hero-logo"
                     priority
                   />
                 </div>
 
                 <div className="hero-brand-copy">
-                  <Badge tone="violet">Ghost Creators Software Group</Badge>
+                  <Badge tone="violet" className="hero-brand-badge">
+                    Ghost Creators Software Group
+                  </Badge>
                   <p className="hero-subtext">Flagship music operations desk</p>
                 </div>
               </div>
