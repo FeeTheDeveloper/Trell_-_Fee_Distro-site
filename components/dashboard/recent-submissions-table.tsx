@@ -138,9 +138,7 @@ export function RecentSubmissionsTable({
               <div key={submission.id} className="upcoming-item">
                 <div>
                   <strong>{submission.songTitle}</strong>
-                  <p>
-                    {submission.clientName} • {submission.status}
-                  </p>
+                  <p>{submission.clientName} - {submission.status}</p>
                 </div>
                 <div className="attention-item-meta">
                   <Badge tone={getUrgencyTone(submission.requestedReleaseDate)}>

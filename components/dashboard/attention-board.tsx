@@ -76,13 +76,19 @@ export function AttentionBoard({
               <div key={item.id} className="attention-item">
                 <div>
                   <strong>{item.songTitle}</strong>
-                  <p>
-                    {item.clientName} • {item.notes}
-                  </p>
+                  <p>{item.clientName} - {item.notes}</p>
                 </div>
                 <div className="attention-item-meta">
                   <Badge tone={getStatusTone(item.status)}>{item.status}</Badge>
-                  <Badge tone={item.readinessScore >= 86 ? "emerald" : item.readinessScore >= 70 ? "gold" : "rose"}>
+                  <Badge
+                    tone={
+                      item.readinessScore >= 86
+                        ? "emerald"
+                        : item.readinessScore >= 70
+                          ? "gold"
+                          : "rose"
+                    }
+                  >
                     {item.readinessScore} readiness
                   </Badge>
                 </div>
